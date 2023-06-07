@@ -63,7 +63,7 @@ pipeline {
                         [
                             artifactId: 'vprofile',
                             classifier: '',
-                            file: 'target/.war',
+                            file: 'target/vprofile-v2.war',
                             type: 'war'
                         ]
                     ],
@@ -81,9 +81,9 @@ pipeline {
         stage('build docker image') {
             steps {
                 script {
-                    sh 'docker build -t $JOB_NAME-uberimage:v1.$BUILD_ID .'
-                    sh 'docker image tag $JOB_NAME-uberimage:v1.$BUILD_ID vignesh22310/$JOB_NAME-uberimage:v1.$BUILD_ID'
-                    sh 'docker image tag $JOB_NAME-uberimage:v1.$BUILD_ID vignesh22310/$JOB_NAME-uberimage:latest'
+                    sh 'docker build -t $JOB_NAME-vimage:v1.$BUILD_ID .'
+                    sh 'docker image tag $JOB_NAME-vimage:v1.$BUILD_ID vignesh22310/$JOB_NAME-vimage:v1.$BUILD_ID'
+                    sh 'docker image tag $JOB_NAME-vimage:v1.$BUILD_ID vignesh22310/$JOB_NAME-vimage:latest'
                 }
             }
         }
@@ -94,8 +94,8 @@ pipeline {
                    script {
                     
                        sh "docker login -u '$USER' -p '$PASS'"
-                       sh 'docker push vignesh22310/$JOB_NAME-uberimage:v1.$BUILD_ID'
-                       sh 'docker push vignesh22310/$JOB_NAME-uberimage:latest'
+                       sh 'docker push vignesh22310/$JOB_NAME-vimage:v1.$BUILD_ID'
+                       sh 'docker push vignesh22310/$JOB_NAME-vimage:latest'
                     
                    }
                 } 
@@ -105,7 +105,7 @@ pipeline {
         stage('deploy to tomcat') {
             steps {
                 script {
-                    deploy adapters: [tomcat9(credentialsId: 'tomcat-deployer', path: '', url: 'http://18.223.235.162:8080/')], contextPath: null, war: '**/*.jar'
+                    deploy adapters: [tomcat9(credentialsId: 'tomcat-deployer', path: '', url: 'http://18.223.235.162:8080/')], contextPath: null, war: '**/*.war'
                    
                     // sshagent(['tomcat-ssh-agent']) {
                     //    sh 'scp -o StrictHostKeyChecking=no target/Uber.jar ubuntu@18.223.235.162:/opt/apache-tomcat-9.0.75/webapps' 
