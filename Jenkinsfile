@@ -8,7 +8,7 @@ pipeline {
         stage('git checkout') {
             steps {
               script {
-                git credentialsId: 'github-cred', url: 'https://github.com/vignesh2310/CICD-DEMO.git'
+                git credentialsId: 'github-cred', url: 'https://github.com/vignesh2310/CICD-VP-WAR.git'
               }
             }
         }
@@ -61,19 +61,19 @@ pipeline {
                     nexusArtifactUploader artifacts: 
                     [
                         [
-                            artifactId: 'springboot',
-                             classifier: '',
-                              file: 'target/Uber.jar',
-                               type: 'jar'
+                            artifactId: 'vprofile',
+                            classifier: '',
+                            file: 'target/.war',
+                            type: 'war'
                         ]
                     ],
                             credentialsId: 'nexuscred',
-                                 groupId: 'com.example',
-                                  nexusUrl: '3.144.250.162:8081',
-                                   nexusVersion: 'nexus3',
-                                    protocol: 'http',
-                                     repository: 'springapp-release',
-                                      version: "${env.JOB_NAME}-${env.BUILD_NUMBER}"    
+                            groupId: 'com.visualpathit',
+                            nexusUrl: '3.144.250.162:8081',
+                            nexusVersion: 'nexus3',
+                            protocol: 'http',
+                            repository: 'war-repo',
+                            version: 'v2'
                 }
             }
         }
