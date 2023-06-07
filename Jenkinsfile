@@ -73,7 +73,7 @@ pipeline {
                             nexusVersion: 'nexus3',
                             protocol: 'http',
                             repository: 'war-repo',
-                            version: 'v2'
+                            version: "${env.JOB_NAME}-${env.BUILD_NUMBER}"
                 }
             }
         }
