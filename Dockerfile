@@ -11,6 +11,6 @@ RUN mvn install
 #select code + ctrl + / = comment all lines
 FROM openjdk:11
 WORKDIR /app
-COPY --from=build /app/target/Uber.jar .
+COPY --from=build /app/target/vprofile-v2.war .
 EXPOSE 9999
-CMD ["java", "-jar", "Uber.jar"]
+CMD ["java", "-war", "vprofile-v2.war"]
